@@ -1,15 +1,13 @@
+import '@webcomponents/custom-elements';
 import $ from 'jquery';
+import TextareaHighlight from '../TextareaHighlight';
+import Textbox from '../Textbox';
+import type { UnpackedLint } from '../unpackLint';
 
 console.info('contentScript is running');
 
-$('textarea').on('focus keyup paste', async function () {
-	const value = $(this).val();
+const lastRender = [];
 
-	if (typeof value != 'string') {
-		return;
-	}
-
-	const response = await chrome.runtime.sendMessage({ text: value });
-
-	console.log(response);
+$('textarea').each(function () {
+	new TextareaHighlight(this);
 });

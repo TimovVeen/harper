@@ -20,20 +20,21 @@ export default defineConfig(({ mode }) => {
 			},
 		},
 		plugins: [
-			copy({
-				targets: [
-					{
-						src: '../harper.js/dist/harper_wasm_bg.wasm',
-						dest: './build/wasm',
-					},
-				],
-			}),
 			crx({ manifest }),
 			svelte({
 				compilerOptions: {
 					dev: !production,
 				},
 				preprocess: sveltePreprocess(),
+			}),
+			copy({
+				hook: 'buildStart',
+				targets: [
+					{
+						src: '../harper.js/dist/harper_wasm_bg.wasm',
+						dest: './build/wasm',
+					},
+				],
 			}),
 		],
 		resolve: {

@@ -6,7 +6,12 @@
 	"description": "",
 	"type": "module",
 	"license": "Apache-2.0",
-	"keywords": ["chrome-extension", "svelte", "vite", "create-chrome-ext"],
+	"keywords": [
+		"chrome-extension",
+		"svelte",
+		"vite",
+		"create-chrome-ext"
+	],
 	"engines": {
 		"node": ">=14.18.0"
 	},
@@ -34,7 +39,10 @@
 		"vite": "^5.4.10"
 	},
 	"dependencies": {
+		"@webcomponents/custom-elements": "^1.6.0",
+		"crelt": "^1.0.5",
 		"harper.js": "workspace:*",
-		"jquery": "^3.7.1"
+		"jquery": "^3.7.1",
+		"lodash-es": "^4.17.21"
 	}
 }

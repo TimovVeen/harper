@@ -11,7 +11,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 		});
 		linter.setup();
 
-		const lints = await linter.lint('This is an test.');
+		const lints = await linter.lint(request.text);
 
 		const unpackedLints = lints.map(unpackLint);
 
