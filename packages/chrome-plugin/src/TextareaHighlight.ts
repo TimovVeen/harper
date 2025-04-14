@@ -36,7 +36,7 @@ export default class TextareaHighlight {
 	private pointerCallback: ((e: PointerEvent) => void) | null = null;
 
 	/** If defined, show a popup containing information from the index.  */
-	private popupLint: number;
+	private popupLint: number | undefined;
 
 	constructor(target: HTMLTextAreaElement) {
 		this.target = target;
@@ -44,7 +44,7 @@ export default class TextareaHighlight {
 		this.update();
 	}
 
-	private async renderHighlights(): Promise<VNode> {
+	private async render(): Promise<VNode> {
 		const text = this.target.value;
 		this.currentLintBoxes = await this.generateLintBoxes(text);
 		const elements = [];
@@ -72,6 +72,7 @@ export default class TextareaHighlight {
 
 		const popup = this.getCurrentPopup();
 
+		console.log(popup);
 		if (popup != null) {
 			elements.push(SuggestionBox(popup));
 		}
@@ -80,14 +81,14 @@ export default class TextareaHighlight {
 	}
 
 	private getCurrentPopup(): LintBox | undefined {
-		if (this.popupLint) {
+		if (this.popupLint != null) {
 			return this.currentLintBoxes.at(this.popupLint);
 		}
 	}
 
 	private async update() {
 		console.log('update');
-		const tree = await this.renderHighlights();
+		const tree = await this.render();
 
 		if (!this.virtualRoot || !this.virtualTree) {
 			this.shadowHost = document.createElement('div');
@@ -125,14 +126,19 @@ export default class TextareaHighlight {
 		console.log([e.x, e.y]);
 		console.log(this.currentLintBoxes);
 
-		for (const box of this.currentLintBoxes) {
+		for (let i = 0; i < this.currentLintBoxes.length; i++) {
+			const box = this.currentLintBoxes[i];
+
 			if (isPointInBox([e.x, e.y], box)) {
-				console.log('hit');
-				this.popupLint = box;
+				console.log('hit', i);
+				this.popupLint = i;
 				this.update();
 				return;
 			}
 		}
+
+		this.popupLint = undefined;
+		this.update();
 	}
 
 	private attachEventListeners() {
