@@ -1,9 +1,24 @@
 import '@webcomponents/custom-elements';
 import $ from 'jquery';
-import TextareaHighlight from '../TextareaHighlight';
+import LintFramework from '../LintFramework';
 
-console.info('contentScript is running');
+const fw = new LintFramework();
 
-$('textarea').each(function () {
-	new TextareaHighlight(this);
+function scan() {
+  $('textarea, input').each(function () {
+    if (
+      this instanceof HTMLTextAreaElement ||
+      (this instanceof HTMLInputElement &&
+       this.type !== 'hidden' &&
+       this.spellcheck !== false)
+    ) {
+      fw.addTarget(this);
+    }
+  });
+}
+
+scan();
+new MutationObserver(scan).observe(document.documentElement, {
+  childList: true,
+  subtree: true
 });

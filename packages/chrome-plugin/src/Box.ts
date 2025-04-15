@@ -13,6 +13,7 @@ export type Box = {
 
 export type LintBox = Box & {
 	lint: UnpackedLint;
+	source: HTMLElement;
 	applySuggestion: (sug: UnpackedSuggestion) => void;
 };
 

@@ -1,7 +1,6 @@
 import h from 'virtual-dom/h';
 import type { LintBox } from './Box';
 import lintKindColor from './lintKindColor';
-import type { UnpackedLint } from './unpackLint';
 import type { UnpackedSuggestion } from './unpackLint';
 
 function header(title: string, color: string): any {
