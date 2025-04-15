@@ -77,6 +77,7 @@ export default function SuggestionBox(box: LintBox) {
 		boxShadow: '0 2px 4px rgba(27, 31, 35, 0.15)',
 		padding: '1rem',
 		zIndex: '5000',
+		fontFamily: 'sans-serif',
 	};
 
 	return h('div', { style: containerStyle }, [
