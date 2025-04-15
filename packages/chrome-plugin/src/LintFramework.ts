@@ -54,11 +54,11 @@ export default class LintFramework {
 	}
 
 	public async addTarget(target: Target) {
-    if (!this.targets.has(target)){
-		  this.targets.add(target);
-		  this.update();
-		  this.attachTargetListeners(target);
-    }
+		if (!this.targets.has(target)) {
+			this.targets.add(target);
+			this.update();
+			this.attachTargetListeners(target);
+		}
 	}
 
 	public async removeTarget(target: Target) {
