@@ -6,7 +6,7 @@ import { leafNodes } from '../domUtils';
 const fw = new LintFramework();
 
 function scan() {
-	$('textarea').each(function () {
+	$('textarea:visible').each(function () {
 		fw.addTarget(this as HTMLTextAreaElement);
 	});
 

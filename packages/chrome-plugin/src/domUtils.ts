@@ -1,4 +1,4 @@
-import type { Span } from "harper.js";
+import type { Span } from 'harper.js';
 
 /**
  * Turn a `NodeList` into a normal JavaScript array.
@@ -53,7 +53,6 @@ export function leafNodes(node: Node): Node[] {
 
 	return out;
 }
-
 
 /**
  * Given an element and a Span of text inside it, compute the Range that represents the region of the DOM represented.

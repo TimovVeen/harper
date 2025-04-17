@@ -84,17 +84,16 @@ export default class LintFramework {
 			target.addEventListener(event, this.updateEventCallback);
 		}
 
-    let observer = new MutationObserver(this.updateEventCallback);
-    const config = { attributes: true, childList: true, subtree: true, characterData: true };
+		const observer = new MutationObserver(this.updateEventCallback);
+		const config = { attributes: true, childList: true, subtree: true, characterData: true };
 
-    console.log(target.tagName, target.parentElement)
+		console.log(target.tagName, target.parentElement);
 
-    if (target.tagName == undefined){
-      observer.observe(target.parentElement!, config);
-    }else{
-      observer.observe(target, config);
-    }
-
+		if (target.tagName == undefined) {
+			observer.observe(target.parentElement!, config);
+		} else {
+			observer.observe(target, config);
+		}
 	}
 
 	private detachTargetListeners(target: HTMLElement) {

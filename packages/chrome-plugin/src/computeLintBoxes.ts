@@ -1,6 +1,6 @@
 import type { LintBox } from './Box';
-import { getRangeForTextSpan } from './domUtils';
 import TextFieldRange from './TextFieldRange';
+import { getRangeForTextSpan } from './domUtils';
 import { type UnpackedLint, type UnpackedSuggestion, applySuggestion } from './unpackLint';
 
 export default function computeLintBoxes(el: HTMLElement, lint: UnpackedLint): LintBox[] {
@@ -14,7 +14,7 @@ export default function computeLintBoxes(el: HTMLElement, lint: UnpackedLint): L
 			text = el.value;
 			break;
 		default:
-      range = getRangeForTextSpan(el, lint.span)
+			range = getRangeForTextSpan(el, lint.span);
 			break;
 	}
 
@@ -23,17 +23,17 @@ export default function computeLintBoxes(el: HTMLElement, lint: UnpackedLint): L
 
 	const boxes: LintBox[] = [];
 
-  let source: HTMLElement | null = null;
+	let source: HTMLElement | null = null;
 
-  if (el.tagName == undefined){
-    source = el.parentElement;
-  }else{
-    source = el;
-  }
+	if (el.tagName == undefined) {
+		source = el.parentElement;
+	} else {
+		source = el;
+	}
 
-  if (source == null){
-    return [];
-  }
+	if (source == null) {
+		return [];
+	}
 
 	for (const targetRect of targetRects) {
 		boxes.push({
@@ -53,27 +53,29 @@ export default function computeLintBoxes(el: HTMLElement, lint: UnpackedLint): L
 }
 
 function selectText(element: HTMLElement) {
-    if (document.selection) { // IE
-        var range = document.body.createTextRange();
-        range.moveToElementText(element);
-        range.select();
-    } else if (window.getSelection) {
-        var range = document.createRange();
-        range.selectNode(element);
-        window.getSelection().removeAllRanges();
-        window.getSelection().addRange(range);
-    }
+	if (document.selection) {
+		// IE
+		const range = document.body.createTextRange();
+		range.moveToElementText(element);
+		range.select();
+	} else if (window.getSelection) {
+		const range = document.createRange();
+		range.selectNode(element);
+		window.getSelection().removeAllRanges();
+		window.getSelection().addRange(range);
+	}
 }
 
 function replaceValue(el: HTMLElement, value: string) {
-  if (typeof el.focus == "function"){
-	  el.focus();
-  }else{
-    console.log("Cannot focus element")
-  }
+	if (typeof el.focus == 'function') {
+		el.focus();
+	} else {
+		console.log('Cannot focus element');
+	}
 
-  selectText(el);
+	selectText(el);
 	if (!document.execCommand('insertText', false, value)) {
+		console.log('execCommand failed');
 		// Fallback for Firefox: just replace the value
 		el.value = value;
 	}

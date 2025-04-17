@@ -50,7 +50,6 @@ export default class PopupHandler {
 
 	public updateLintBoxes(boxes: LintBox[]) {
 		this.currentLintBoxes.forEach((b) =>
-
 			b.source.removeEventListener('pointerdown', this.pointerDownCallback),
 		);
 		this.currentLintBoxes = boxes;
