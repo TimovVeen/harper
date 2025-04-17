@@ -1,5 +1,5 @@
 <script lang="ts">
-import { Badge, Button, Select, Toggle } from 'flowbite-svelte';
+import { Button, Select, Toggle } from 'flowbite-svelte';
 import { Dialect } from 'harper.js';
 
 let on = $state(true);
@@ -18,10 +18,10 @@ function openSettings() {
     </span>
 
     <div class="flex items-center gap-2">
-      <Toggle bind:checked={on} color="primary" size="small" />
       <span class="text-xs font-medium select-none">
         {on ? 'Enabled' : 'Disabled'}
       </span>
+      <Toggle bind:checked={on} color="primary" size="small" />
     </div>
   </div>
 

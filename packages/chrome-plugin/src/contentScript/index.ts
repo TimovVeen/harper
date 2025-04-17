@@ -1,6 +1,7 @@
 import '@webcomponents/custom-elements';
 import $ from 'jquery';
 import LintFramework from '../LintFramework';
+import { leafNodes } from '../domUtils';
 
 const fw = new LintFramework();
 
@@ -10,8 +11,15 @@ function scan() {
 	});
 
 	$('input[type="text"][spellcheck="true"]').each(function () {
-		console.log(this);
 		fw.addTarget(this as HTMLInputElement);
+	});
+
+	$('[contenteditable]').each(function () {
+		const leafs = leafNodes(this);
+
+		for (const leaf of leafs) {
+			fw.addTarget(leaf as HTMLElement);
+		}
 	});
 }
 
