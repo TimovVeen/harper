@@ -1,15 +1,14 @@
 <script lang="ts">
-  import { Badge, Button, Select, Toggle } from 'flowbite-svelte';
-  import { Dialect } from 'harper.js';
+import { Badge, Button, Select, Toggle } from 'flowbite-svelte';
+import { Dialect } from 'harper.js';
 
-  let on   = $state(true);
-  let domain    = $state('');
-  let corrections = $state(0);
-  let dialect   = $state<Dialect>(Dialect.American);
+let on = $state(true);
+let domain = $state('');
+let dialect = $state<Dialect>(Dialect.American);
 
-  function openSettings() {
-    chrome.runtime?.openOptionsPage?.();
-  }
+function openSettings() {
+	chrome.runtime?.openOptionsPage?.();
+}
 </script>
 
 <main class="p-6 space-y-5 text-gray-800">
@@ -24,13 +23,6 @@
         {on ? 'Enabled' : 'Disabled'}
       </span>
     </div>
-  </div>
-
-  <div class="flex items-center gap-2">
-    <Badge color="primary" class="px-2 py-0.5 text-xs font-semibold">
-      {corrections}
-    </Badge>
-    <span class="text-sm">corrections applied</span>
   </div>
 
   <Select bind:value={dialect} color="primary" size="sm" class="w-full">

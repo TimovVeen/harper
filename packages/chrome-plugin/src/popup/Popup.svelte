@@ -7,9 +7,8 @@ import Onboarding from './Onboarding.svelte';
 let page: 'onboarding' | 'main' | 'settings' = $state('onboarding');
 
 $effect(() => {
-  console.log(page);
-})
-
+	console.log(page);
+});
 </script>
 
 <div class="w-[340px] border border-gray-200 bg-white font-sans flex flex-col rounded-lg shadow-sm">

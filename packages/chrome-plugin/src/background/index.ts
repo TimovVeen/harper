@@ -1,10 +1,11 @@
 import { BinaryModule, LocalLinter } from 'harper.js';
 import type {
-	ApplySuggestionRequest,
 	LintRequest,
 	LintResponse,
 	Request,
 	Response,
+	StatsRequest,
+	StatsResponse,
 } from '../protocol';
 import unpackLint from '../unpackLint';
 console.log('background is running');
