@@ -9,15 +9,8 @@ export default defineManifest({
 	description: packageData.description,
 	version: packageData.version,
 	manifest_version: 3,
-	icons: {
-		16: 'img/logo-16.png',
-		32: 'img/logo-32.png',
-		48: 'img/logo-48.png',
-		128: 'img/logo-128.png',
-	},
 	action: {
 		default_popup: 'popup.html',
-		default_icon: 'img/logo-48.png',
 	},
 	options_page: 'options.html',
 	background: {
@@ -32,12 +25,12 @@ export default defineManifest({
 	],
 	web_accessible_resources: [
 		{
-			resources: ['img/logo-16.png', 'img/logo-32.png', 'img/logo-48.png', 'img/logo-128.png'],
+			resources: [],
 			matches: [],
 		},
 	],
 	permissions: ['storage'],
 	content_security_policy: {
-		extension_pages: "script-src 'self' 'wasm-unsafe-eval'; default-src 'self'",
+		extension_pages: "script-src 'self' 'wasm-unsafe-eval'",
 	},
 });

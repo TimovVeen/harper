@@ -1,6 +1,7 @@
 import path from 'path';
 import { crx } from '@crxjs/vite-plugin';
 import { svelte } from '@sveltejs/vite-plugin-svelte';
+import tailwindcss from '@tailwindcss/vite';
 import copy from 'rollup-plugin-copy';
 import sveltePreprocess from 'svelte-preprocess';
 import { defineConfig } from 'vite';
@@ -20,6 +21,7 @@ export default defineConfig(({ mode }) => {
 			},
 		},
 		plugins: [
+			tailwindcss(),
 			crx({ manifest }),
 			svelte({
 				compilerOptions: {

@@ -1,7 +1,7 @@
 <script>
 import { onMount } from 'svelte';
 
-let countSync = 0;
+let countSync = $state(0);
 const link = 'https://github.com/guocaoyi/create-chrome-ext';
 
 onMount(() => {
