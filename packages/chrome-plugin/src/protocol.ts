@@ -1,7 +1,11 @@
 import type { LintConfig, Summary } from 'harper.js';
 import type { UnpackedLint, UnpackedSuggestion } from './unpackLint';
 
-export type Request = LintRequest | GetConfigRequest | SetConfigRequest;
+export type Request =
+	| LintRequest
+	| GetConfigRequest
+	| SetConfigRequest
+	| GetLintDescriptionsRequest;
 
 export type LintRequest = {
 	kind: 'lint';
@@ -17,7 +21,15 @@ export type SetConfigRequest = {
 	config: LintConfig;
 };
 
-export type Response = LintResponse | GetConfigResponse | UnitResponse;
+export type GetLintDescriptionsRequest = {
+	kind: 'getLintDescriptions';
+};
+
+export type Response =
+	| LintResponse
+	| GetConfigResponse
+	| UnitResponse
+	| GetLintDescriptionsResponse;
 
 export type LintResponse = {
 	kind: 'lints';
@@ -27,6 +39,11 @@ export type LintResponse = {
 export type GetConfigResponse = {
 	kind: 'getConfig';
 	config: LintConfig;
+};
+
+export type GetLintDescriptionsResponse = {
+	kind: 'getLintDescriptions';
+	descriptions: Record<string, string>;
 };
 
 /** Similar to returning void. */

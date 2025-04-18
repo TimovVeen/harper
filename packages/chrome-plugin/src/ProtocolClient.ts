@@ -14,4 +14,8 @@ export default class ProtocolClient {
 	public static async setLintConfig(lintConfig: LintConfig): Promise<void> {
 		await chrome.runtime.sendMessage({ kind: 'setConfig', config: lintConfig });
 	}
+
+	public static async getLintDescriptions(): Promise<Record<string, string>> {
+		return (await chrome.runtime.sendMessage({ kind: 'getLintDescriptions' })).descriptions;
+	}
 }

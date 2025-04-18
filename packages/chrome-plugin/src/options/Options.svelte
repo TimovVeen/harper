@@ -5,6 +5,9 @@ import logo from '/logo.png';
 import ProtocolClient from '../ProtocolClient';
 
 let lintConfig: LintConfig = $state({});
+let lintDescriptions: Record<string, string> = $state({});
+let searchQuery = $state('');
+let searchQueryLower = $derived(searchQuery.toLowerCase());
 
 $effect(() => {
 	ProtocolClient.setLintConfig(lintConfig);
@@ -12,6 +15,9 @@ $effect(() => {
 
 ProtocolClient.getLintConfig().then((l) => {
 	lintConfig = l;
+});
+ProtocolClient.getLintDescriptions().then((d) => {
+	lintDescriptions = d;
 });
 
 function valueToString(value: boolean | undefined): string {
@@ -76,17 +82,17 @@ function stringToValue(str: string): boolean | undefined {
     <section class="space-y-4">
       <div class="flex items-center justify-between gap-4">
         <h3 class="text-xs font-semibold uppercase tracking-wider text-gray-500">Rules</h3>
-        <Input placeholder="Search for a rule…" size="sm" class="w-60" />
+        <Input bind:value={searchQuery} placeholder="Search for a rule…" size="sm" class="w-60" />
       </div>
 
-      {#each Object.entries(lintConfig) as [key, value]}
+      {#each Object.entries(lintConfig).filter(([key, value]) => lintDescriptions[key].toLowerCase().includes(searchQueryLower) || key.toLowerCase().includes(searchQueryLower)) as [key, value]}
         <div class="space-y-4 max-h-80 overflow-y-auto pr-1">
           <!-- rule card sample -->
           <div class="rounded-lg border border-gray-200 p-3 shadow-sm">
             <div class="flex items-start justify-between gap-4">
               <div class="space-y-0.5">
                 <p class="font-medium">{key}</p>
-                <p class="text-xs text-gray-600">Corrects “along time” to “a long time”.</p>
+                <p class="text-xs text-gray-600">{lintDescriptions[key]}</p>
               </div>
               <Select size="sm" value={valueToString(value)} on:change={(e) => { lintConfig[key] = stringToValue(e.target.value);}} class="max-w-[10rem]">
                 <option value="default">Default</option>

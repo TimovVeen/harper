@@ -2,6 +2,8 @@ import { BinaryModule, type LintConfig, LocalLinter } from 'harper.js';
 import type {
 	GetConfigRequest,
 	GetConfigResponse,
+	GetLintDescriptionsRequest,
+	GetLintDescriptionsResponse,
 	LintRequest,
 	LintResponse,
 	Request,
@@ -35,6 +37,8 @@ function handleRequest(message: Request): Promise<Response> {
 			return handleGetConfig(message);
 		case 'setConfig':
 			return handleSetConfig(message);
+		case 'getLintDescriptions':
+			return handleGetLintDescriptions(message);
 	}
 }
 
@@ -52,6 +56,12 @@ async function handleSetConfig(req: SetConfigRequest): Promise<UnitResponse> {
 	await setLintConfig(req.config);
 
 	return { kind: 'unit' };
+}
+
+async function handleGetLintDescriptions(
+	req: GetLintDescriptionsRequest,
+): Promise<GetLintDescriptionsResponse> {
+	return { kind: 'getLintDescriptions', descriptions: await linter.getLintDescriptions() };
 }
 
 /** Set the lint configuration inside the global `linter` and in permanent storage. */
