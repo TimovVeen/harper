@@ -72,10 +72,10 @@ function configStringToValue(str: string): boolean | undefined | null {
         <div class="flex items-center justify-between">
           <span class="font-medium">English Dialect</span>
           <Select size="sm" color="primary" class="w-44" bind:value={dialect}>
-            <option value={Dialect.American}>American</option>
-            <option value={Dialect.British}>British</option>
-            <option value={Dialect.Australian}>Australian</option>
-            <option value={Dialect.Canadian}>Canadian</option>
+            <option value={Dialect.American}>🇺🇸 American</option>
+            <option value={Dialect.British}>🇬🇧 British</option>
+            <option value={Dialect.Australian}>🇦🇺 Australian</option>
+            <option value={Dialect.Canadian}>🇨🇦 Canadian</option>
           </Select>
         </div>
       </div>
@@ -103,10 +103,17 @@ function configStringToValue(str: string): boolean | undefined | null {
                 <p class="font-medium">{key}</p>
                 <p class="text-xs text-gray-600">{lintDescriptions[key]}</p>
               </div>
-              <Select size="sm" value={configValueToString(value)} on:change={(e) => { lintConfig[key] = configStringToValue(e.target.value);}} class="max-w-[10rem]">
-                <option value="default">Default</option>
-                <option value="enable">On</option>
-                <option value="disable">Off</option>
+              <Select
+                size="sm"
+                value={configValueToString(value)}
+                on:change={(e) => {
+                  lintConfig[key] = configStringToValue(e.target.value);
+                }}
+                class="max-w-[10rem]"
+              >
+                <option value="default">⚙️ Default</option>
+                <option value="enable">✅ On</option>
+                <option value="disable">🚫 Off</option>
               </Select>
             </div>
           </div>
