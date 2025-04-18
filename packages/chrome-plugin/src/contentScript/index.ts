@@ -14,7 +14,7 @@ function scan() {
 		fw.addTarget(this as HTMLInputElement);
 	});
 
-	$('[contenteditable]').each(function () {
+	$('[contenteditable="true"]').each(function () {
 		const leafs = leafNodes(this);
 
 		for (const leaf of leafs) {

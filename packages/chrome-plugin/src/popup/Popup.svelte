@@ -4,7 +4,7 @@ import logo from '/logo.png';
 import Main from './Main.svelte';
 import Onboarding from './Onboarding.svelte';
 
-let page: 'onboarding' | 'main' | 'settings' = $state('main');
+let page: 'onboarding' | 'main' = $state('main');
 
 $effect(() => {
 	chrome.storage.local.get({ popupState: 'onboarding' }).then((result) => {
@@ -26,9 +26,7 @@ $effect(() => {
   {#if page == "onboarding"}
     <Onboarding onConfirm={() => { page = "main";}} />
   {:else if page == "main"}
-    <Main openSettings={() => {page = "settings";}}/> 
-  {:else if page == "settings"}
-
+    <Main /> 
   {/if}
 
   <footer class="flex items-center justify-center gap-6 px-3 py-2 text-sm border-t border-gray-100 rounded-b-lg bg-white/60">

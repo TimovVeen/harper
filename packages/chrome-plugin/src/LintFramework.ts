@@ -1,15 +1,8 @@
 import { memoize } from 'lodash-es';
 import Highlights from './Highlights';
 import PopupHandler from './PopupHandler';
+import ProtocolClient from './ProtocolClient';
 import computeLintBoxes from './computeLintBoxes';
-import type { UnpackedLint } from './unpackLint';
-
-async function lint(text: string): Promise<UnpackedLint[]> {
-	console.log('Hitting service worker.');
-	return (await chrome.runtime.sendMessage({ kind: 'lint', text })).lints;
-}
-
-const memLint = memoize(lint);
 
 /** Events on an input (any kind) that can trigger a re-render. */
 const INPUT_EVENTS = ['focus', 'keyup', 'paste', 'change', 'scroll'];
@@ -53,7 +46,7 @@ export default class LintFramework {
 				continue;
 			}
 
-			const lints = await memLint(text);
+			const lints = await ProtocolClient.lint(text);
 			boxes.push(...lints.flatMap((l) => computeLintBoxes(target, l)));
 		}
 
