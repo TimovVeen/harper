@@ -8,19 +8,29 @@ let lintConfig: LintConfig = $state({});
 let lintDescriptions: Record<string, string> = $state({});
 let searchQuery = $state('');
 let searchQueryLower = $derived(searchQuery.toLowerCase());
+let dialect = $state(Dialect.American);
 
 $effect(() => {
 	ProtocolClient.setLintConfig(lintConfig);
 });
 
+$effect(() => {
+	ProtocolClient.setDialect(dialect);
+});
+
 ProtocolClient.getLintConfig().then((l) => {
 	lintConfig = l;
 });
+
 ProtocolClient.getLintDescriptions().then((d) => {
 	lintDescriptions = d;
 });
 
-function valueToString(value: boolean | undefined): string {
+ProtocolClient.getDialect().then((d) => {
+	dialect = d;
+});
+
+function configValueToString(value: boolean | undefined): string {
 	switch (value) {
 		case true:
 			return 'enable';
@@ -33,7 +43,7 @@ function valueToString(value: boolean | undefined): string {
 	throw 'Fell through case';
 }
 
-function stringToValue(str: string): boolean | undefined {
+function configStringToValue(str: string): boolean | undefined {
 	switch (str) {
 		case 'enable':
 			return true;
@@ -62,7 +72,7 @@ function stringToValue(str: string): boolean | undefined {
       <div class="space-y-5">
         <div class="flex items-center justify-between">
           <span class="font-medium">English Dialect</span>
-          <Select size="sm" color="primary" class="w-44">
+          <Select size="sm" color="primary" class="w-44" bind:value={dialect}>
             <option value={Dialect.American}>American</option>
             <option value={Dialect.British}>British</option>
             <option value={Dialect.Australian}>Australian</option>
@@ -94,7 +104,7 @@ function stringToValue(str: string): boolean | undefined {
                 <p class="font-medium">{key}</p>
                 <p class="text-xs text-gray-600">{lintDescriptions[key]}</p>
               </div>
-              <Select size="sm" value={valueToString(value)} on:change={(e) => { lintConfig[key] = stringToValue(e.target.value);}} class="max-w-[10rem]">
+              <Select size="sm" value={configValueToString(value)} on:change={(e) => { lintConfig[key] = configStringToValue(e.target.value);}} class="max-w-[10rem]">
                 <option value="default">Default</option>
                 <option value="enable">On</option>
                 <option value="disable">Off</option>

@@ -1,7 +1,9 @@
-import { BinaryModule, type LintConfig, LocalLinter } from 'harper.js';
+import { BinaryModule, Dialect, type LintConfig, LocalLinter } from 'harper.js';
 import type {
 	GetConfigRequest,
 	GetConfigResponse,
+	GetDialectRequest,
+	GetDialectResponse,
 	GetLintDescriptionsRequest,
 	GetLintDescriptionsResponse,
 	LintRequest,
@@ -9,17 +11,15 @@ import type {
 	Request,
 	Response,
 	SetConfigRequest,
+	SetDialectRequest,
 	UnitResponse,
 } from '../protocol';
 import unpackLint from '../unpackLint';
 console.log('background is running');
 
-const linter = new LocalLinter({
-	binary: new BinaryModule(chrome.runtime.getURL('./wasm/harper_wasm_bg.wasm')),
-});
+let linter: LocalLinter;
 
-getLintConfig().then((c) => linter.setLintConfig(c));
-linter.setup();
+getDialect().then(setDialect);
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 	console.log(request);
@@ -39,6 +39,10 @@ function handleRequest(message: Request): Promise<Response> {
 			return handleSetConfig(message);
 		case 'getLintDescriptions':
 			return handleGetLintDescriptions(message);
+		case 'setDialect':
+			return handleSetDialect(message);
+		case 'getDialect':
+			return handleGetDialect(message);
 	}
 }
 
@@ -58,6 +62,16 @@ async function handleSetConfig(req: SetConfigRequest): Promise<UnitResponse> {
 	return { kind: 'unit' };
 }
 
+async function handleSetDialect(req: SetDialectRequest): Promise<UnitResponse> {
+	await setDialect(req.dialect);
+
+	return { kind: 'unit' };
+}
+
+async function handleGetDialect(req: GetDialectRequest): Promise<GetDialectResponse> {
+	return { kind: 'getDialect', dialect: await getDialect() };
+}
+
 async function handleGetLintDescriptions(
 	req: GetLintDescriptionsRequest,
 ): Promise<GetLintDescriptionsResponse> {
@@ -70,7 +84,7 @@ async function setLintConfig(lintConfig: LintConfig): Promise<void> {
 
 	const json = await linter.getLintConfigAsJSON();
 
-	chrome.storage.local.set({ lintConfig: json });
+	await chrome.storage.local.set({ lintConfig: json });
 }
 
 /** Get the lint configuration from permanent storage. */
@@ -78,4 +92,24 @@ async function getLintConfig(): Promise<LintConfig> {
 	const json = await linter.getLintConfigAsJSON();
 	const resp = await chrome.storage.local.get({ lintConfig: json });
 	return JSON.parse(resp.lintConfig);
+}
+
+async function getDialect(): Promise<Dialect> {
+	const resp = await chrome.storage.local.get({ dialect: Dialect.American });
+	return resp.dialect;
+}
+
+function initializeLinter(dialect: Dialect) {
+	linter = new LocalLinter({
+		binary: new BinaryModule(chrome.runtime.getURL('./wasm/harper_wasm_bg.wasm')),
+		dialect,
+	});
+
+	getLintConfig().then((c) => linter.setLintConfig(c));
+	linter.setup();
+}
+
+async function setDialect(dialect: Dialect) {
+	await chrome.storage.local.set({ dialect });
+	initializeLinter(dialect);
 }

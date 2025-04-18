@@ -1,4 +1,4 @@
-import type { LintConfig } from 'harper.js';
+import type { Dialect, LintConfig } from 'harper.js';
 import type { UnpackedLint } from './unpackLint';
 
 /** A wrapper around Chrome's messaging protocol for communicating with the background worker. */
@@ -17,5 +17,13 @@ export default class ProtocolClient {
 
 	public static async getLintDescriptions(): Promise<Record<string, string>> {
 		return (await chrome.runtime.sendMessage({ kind: 'getLintDescriptions' })).descriptions;
+	}
+
+	public static async getDialect(): Promise<Dialect> {
+		return (await chrome.runtime.sendMessage({ kind: 'getDialect' })).dialect;
+	}
+
+	public static async setDialect(dialect: Dialect): Promise<void> {
+		await chrome.runtime.sendMessage({ kind: 'setDialect', dialect });
 	}
 }
