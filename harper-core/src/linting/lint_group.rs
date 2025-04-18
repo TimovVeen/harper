@@ -120,6 +120,10 @@ impl LintGroupConfig {
     /// Conflicting keys will be overridden by the value in the other group.
     pub fn merge_from(&mut self, other: &mut LintGroupConfig) {
         for (key, val) in other.inner.iter() {
+            if val.is_none() {
+                continue;
+            }
+
             self.inner.insert(key.to_string(), *val);
         }
 
