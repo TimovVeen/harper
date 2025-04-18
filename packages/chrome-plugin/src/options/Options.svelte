@@ -81,12 +81,6 @@ function configStringToValue(str: string): boolean | undefined | null {
       </div>
     </section>
 
-    <!-- ── DANGER ZONE ───────────────────────── -->
-    <section class="space-y-4 border-l-4 border-red-500 pl-4 flex justify-between">
-      <h3 class="text-xs font-semibold uppercase tracking-wider text-red-600">Danger Zone</h3>
-      <Button color="primary" size="sm">Forget Ignored Suggestions</Button>
-    </section>
-
     <!-- ── RULES ─────────────────────────────── -->
     <section class="space-y-4">
       <div class="flex items-center justify-between gap-4">
