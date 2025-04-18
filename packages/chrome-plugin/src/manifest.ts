@@ -29,6 +29,9 @@ export default defineManifest({
 			matches: [],
 		},
 	],
+	icons: {
+		'512': 'logo.png',
+	},
 	permissions: ['storage'],
 	content_security_policy: {
 		extension_pages: "script-src 'self' 'wasm-unsafe-eval'",
