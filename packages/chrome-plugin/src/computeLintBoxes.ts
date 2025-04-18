@@ -5,7 +5,7 @@ import { type UnpackedLint, type UnpackedSuggestion, applySuggestion } from './u
 
 export default function computeLintBoxes(el: HTMLElement, lint: UnpackedLint): LintBox[] {
 	let range: Range | TextFieldRange;
-	let text;
+	let text: string | null = null;
 
 	switch (el.tagName) {
 		case 'TEXTAREA':

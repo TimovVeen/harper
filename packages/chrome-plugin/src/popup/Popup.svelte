@@ -4,10 +4,16 @@ import logo from '/logo.png';
 import Main from './Main.svelte';
 import Onboarding from './Onboarding.svelte';
 
-let page: 'onboarding' | 'main' | 'settings' = $state('onboarding');
+let page: 'onboarding' | 'main' | 'settings' = $state('main');
 
 $effect(() => {
-	console.log(page);
+	chrome.storage.local.get({ popupState: 'onboarding' }).then((result) => {
+		page = result.popupState;
+	});
+});
+
+$effect(() => {
+	chrome.storage.local.set({ popupState: page });
 });
 </script>
 
