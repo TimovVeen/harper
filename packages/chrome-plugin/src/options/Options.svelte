@@ -36,21 +36,20 @@ function configValueToString(value: boolean | undefined): string {
 			return 'enable';
 		case false:
 			return 'disable';
+		case undefined:
 		case null:
 			return 'default';
 	}
-
-	throw 'Fell through case';
 }
 
-function configStringToValue(str: string): boolean | undefined {
+function configStringToValue(str: string): boolean | undefined | null {
 	switch (str) {
 		case 'enable':
 			return true;
 		case 'disable':
 			return false;
 		case 'default':
-			return undefined;
+			return null;
 	}
 
 	throw 'Fell through case';
@@ -95,7 +94,7 @@ function configStringToValue(str: string): boolean | undefined {
         <Input bind:value={searchQuery} placeholder="Search for a rule…" size="sm" class="w-60" />
       </div>
 
-      {#each Object.entries(lintConfig).filter(([key, value]) => lintDescriptions[key].toLowerCase().includes(searchQueryLower) || key.toLowerCase().includes(searchQueryLower)) as [key, value]}
+      {#each Object.entries(lintConfig).filter(([key]) => lintDescriptions[key].toLowerCase().includes(searchQueryLower) || key.toLowerCase().includes(searchQueryLower)) as [key, value]}
         <div class="space-y-4 max-h-80 overflow-y-auto pr-1">
           <!-- rule card sample -->
           <div class="rounded-lg border border-gray-200 p-3 shadow-sm">
