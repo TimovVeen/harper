@@ -1,0 +1,15 @@
+name: Sync with upstream
+on:
+  schedule:
+    - cron: "12 0 * * *"
+  push:
+
+jobs:
+  sync-mirror:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Update mirror
+        uses: projg2/crate-dist-mirror-action@v2
+        with:
+          ssh-private-key: ${{ secrets.ssh_key }}
+          directories: harper-ls
